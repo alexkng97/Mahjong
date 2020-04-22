@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Tile {
-    private enum Suit {CHARACTERS, BAMBOO, DOTS, HONOURS, FLOWERS}
+    public enum Suit {CHARACTERS, BAMBOO, DOTS, HONOURS, DRAGONS, FLOWERS, SEASONS}
 
     private int value;
 
@@ -30,7 +30,9 @@ public class Tile {
 
         if (this.suit == Suit.HONOURS) {
             return convertHonour(this.value);
-        } else {
+        } else if (this.suit == Suit.DRAGONS) {
+            return convertDragon(this.value);
+        }else {
             return (this.value + " " + this.suit);
         }
     }
@@ -49,6 +51,19 @@ public class Tile {
                 return "invalid";
         }
 
+    }
+
+    public String convertDragon(int value){
+        switch(value){
+            case 1:
+                return "SWORD";
+            case 2:
+                return "GREENIE";
+            case 3:
+                return "MIRROR";
+            default:
+                return "invalid";
+        }
     }
 
     public int compareTo(Tile other) {
