@@ -9,6 +9,7 @@ public class Deck {
     public Deck() {
         this.deck = new ArrayList<>(144);
         for (Tile.Suit suit : Tile.Suit.values()) {
+            //iterate through suit
             if (suit.equals(Tile.Suit.FLOWERS) || (suit.equals(Tile.Suit.SEASONS))) {
                 //create flower
                 for (int i = 1; i < 5; i++) {
@@ -17,6 +18,7 @@ public class Deck {
                 }
             } else {
                 for (int j = 0; j < 4; j++) {
+                    //create 4 sets
                     if (suit.equals(Tile.Suit.HONOURS)) {
                         //create honour
                         for (int i = 1; i < 5; i++) {
@@ -60,12 +62,23 @@ public class Deck {
         return sb.toString();
     }
 
+    public Tile deal(){
+        Tile output = this.deck.get(0);
+        this.deck.remove(0);
+
+        return output;
+    }
+
     public static void main(String[] args) {
         Deck d = new Deck();
-        //System.out.println(d);
+
         System.out.println(d.getSize());
         d.shuffle();
         System.out.println(d);
+        Tile out = d.deal();
+
+        System.out.println(d);
+        System.out.println(d.getSize());
     }
 }
 
