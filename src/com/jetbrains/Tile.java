@@ -37,7 +37,7 @@ public class Tile {
         }
     }
 
-    public String convertHonour(int value) {
+    public static String convertHonour(int value) {
         switch (value) {
             case 1:
                 return "EAST";
