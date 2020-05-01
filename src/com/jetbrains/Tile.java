@@ -32,7 +32,7 @@ public class Tile {
             return convertHonour(this.value);
         } else if (this.suit == Suit.DRAGONS) {
             return convertDragon(this.value);
-        }else {
+        } else {
             return (this.value + " " + this.suit);
         }
     }
@@ -53,8 +53,8 @@ public class Tile {
 
     }
 
-    public String convertDragon(int value){
-        switch(value){
+    public String convertDragon(int value) {
+        switch (value) {
             case 1:
                 return "SWORD";
             case 2:
@@ -92,11 +92,26 @@ public class Tile {
         }
     }
 
+    public int adjacentTo(Tile other) {
+        if (this.suit == other.suit) {
+            if(this.value + 1 == other.value){
+                return -1;
+            }else if(this.value - 1 == other.value){
+                return 1;
+            } else{
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+
+    }
+
 
     public static void main(String[] args) {
         Tile t = new Tile(Suit.HONOURS, 1);
         Tile t1 = new Tile(Suit.CHARACTERS, 9);
-        Tile t2 = new Tile(Suit.CHARACTERS, 7);
+        Tile t2 = new Tile(Suit.CHARACTERS, 8);
         ArrayList<Tile> tiles = new ArrayList<>();
 
         tiles.add(t);
@@ -109,6 +124,10 @@ public class Tile {
         Collections.sort(tiles, comparator);
 
         System.out.println(tiles.toString());
+
+        System.out.println(t1.adjacentTo(t2));
+        System.out.println(t2.adjacentTo(t1));
+        System.out.println(t.adjacentTo(t1));
     }
 
 

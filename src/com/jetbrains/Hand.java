@@ -1,11 +1,9 @@
 package com.jetbrains;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Hand {
-    ArrayList<Tile> tiles;
+    private ArrayList<Tile> tiles;
     int score;
     boolean hasKong;
 
@@ -13,9 +11,14 @@ public class Hand {
         this.tiles = new ArrayList<>();
     }
 
+    public ArrayList<Tile> getTiles(){
+        return this.tiles;
+    }
+
     public int getSize() {
         return this.tiles.size();
     }
+
 
     public void addToHand(Tile t) {
         this.tiles.add(t);
@@ -35,35 +38,73 @@ public class Hand {
         Collections.sort(this.tiles, comparator);
     }
 
-    public int checkForDoubles() {
 
+
+    public int checkForDoubles() {
         int doubleCount = 0;
         for (int i = 0; i < this.tiles.size() - 1; i++) {
             Tile current = this.tiles.get(i);
-            System.out.println("Current: " + current);
+            //System.out.println("Current: " + current);
             int trackDouble = 0;
             for (int j = i + 1; j < this.tiles.size(); j++) {
-                System.out.println("Iteration " + j + " " + this.tiles.get(j));
+               // System.out.println("Iteration " + j + " " + this.tiles.get(j));
                 if (current.compareTo(this.tiles.get(j)) == 0) {
                     trackDouble++;
-                    System.out.println("Same Tile Detected");
+                 //   System.out.println("Same Tile Detected");
                     if (trackDouble == 1) {
-                        System.out.println("Double");
+                   //     System.out.println("Double");
                         doubleCount++;
                     }else if(trackDouble == 2){
-                        System.out.println("Not Double");
+                     //   System.out.println("Not Double");
                         doubleCount = doubleCount -2;
                     } else if (trackDouble == 3){
-                        System.out.println("KONG");
+                       // System.out.println("KONG");
                         this.hasKong = true;
                     }
 
                 }
             }
-            System.out.println("-----------------------------");
+           // System.out.println("-----------------------------");
 
         }
         return doubleCount;
+    }
+
+    public int checkForRuns(){
+        //checking for runs of 3 adjacent tiles e.g. 1,2,3.
+        //if tiles 1,2,3,4,5: return 1 run.
+        int runCount =0;
+
+        for(int i = 0; i < this.tiles.size(); i++){
+            Tile current = this.tiles.get(i);
+            System.out.println("current: " + current);
+            for(int j = i; j < this.tiles.size(); j++){
+                if(current.adjacentTo(this.tiles.get(j)) == -1){
+                    System.out.println(this.tiles.get(j));
+                    System.out.println("before");
+
+                }else if (current.adjacentTo(this.tiles.get(j)) == 1){
+                    System.out.println(this.tiles.get(j));
+                    System.out.println("after");
+                    //will never happen? unless hand is not sorted
+                }else{
+                    //not adjacent
+                }
+            }
+
+        }
+
+        return runCount;
+
+    }
+
+    public HashMap<Tile,Integer> countTiles(){
+        HashMap<Tile,Integer> tileCounts;
+
+        for(int i = 0; i < this.tiles.size();i++){
+
+        }
+
     }
 
     public static void main(String[] args) {
@@ -77,6 +118,7 @@ public class Hand {
         Tile doub3 = new Tile(Tile.Suit.BAMBOO,3);
         Tile doub4 = new Tile(Tile.Suit.BAMBOO,3);
         Tile doub5 = new Tile(Tile.Suit.BAMBOO,7);
+        Tile adj = new Tile(Tile.Suit.BAMBOO, 2);
 
         //Add tiles to hand
         h.addToHand(add);
@@ -91,11 +133,14 @@ public class Hand {
         h.addToHand(doub3);
         h.addToHand(doub4);
         h.addToHand(doub5);
+        h.addToHand(adj);
 
         System.out.println(h);
         h.sort();
         System.out.println(h);
         System.out.println(h.checkForDoubles());
+
+        System.out.println(h.checkForRuns());
 
     }
 }
