@@ -6,9 +6,12 @@ public class Hand {
     private ArrayList<Tile> tiles;
     int score;
     boolean hasKong;
+    int numDoubles;
+
 
     public Hand() {
         this.tiles = new ArrayList<>();
+        this.numDoubles = 0;
     }
 
     public ArrayList<Tile> getTiles(){
@@ -77,15 +80,15 @@ public class Hand {
 
         for(int i = 0; i < this.tiles.size(); i++){
             Tile current = this.tiles.get(i);
-            System.out.println("current: " + current);
+           // System.out.println("current: " + current);
             for(int j = i; j < this.tiles.size(); j++){
                 if(current.adjacentTo(this.tiles.get(j)) == -1){
                     System.out.println(this.tiles.get(j));
-                    System.out.println("before");
+                   // System.out.println("before");
 
                 }else if (current.adjacentTo(this.tiles.get(j)) == 1){
                     System.out.println(this.tiles.get(j));
-                    System.out.println("after");
+                   // System.out.println("after");
                     //will never happen? unless hand is not sorted
                 }else{
                     //not adjacent
@@ -98,14 +101,37 @@ public class Hand {
 
     }
 
-    public HashMap<Tile,Integer> countTiles(){
-        HashMap<Tile,Integer> tileCounts;
-
+    public HashMap<String,Integer> countTiles(){
+        HashMap<String,Integer> tileCounts = new HashMap<>();
         for(int i = 0; i < this.tiles.size();i++){
+            Tile current = this.tiles.get(i);
+            String key = current.toString();
+            //System.out.println(tileCounts.toString());
+
+            if(tileCounts.containsKey(key)){
+                //System.out.println("contains");
+                int oldValue = tileCounts.get(key);
+                int newValue = oldValue +1;
+                tileCounts.replace(key,oldValue,newValue);
+
+            }else{
+                tileCounts.put(key, 1);
+
+            }
+
 
         }
+        if(tileCounts.containsValue(4)){
+            this.hasKong = true;
+        }
+
+        System.out.println(tileCounts.toString());
+        return tileCounts;
+
 
     }
+
+
 
     public static void main(String[] args) {
         Hand h = new Hand();
@@ -141,6 +167,7 @@ public class Hand {
         System.out.println(h.checkForDoubles());
 
         System.out.println(h.checkForRuns());
+        h.countTiles();
 
     }
 }

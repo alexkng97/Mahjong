@@ -7,7 +7,30 @@ public class Deck {
     private ArrayList<Tile> deck;
 
     public Deck() {
-        this.deck = new ArrayList<>(144);
+       this.deck = createDeck();
+    }
+
+    public void shuffle(){
+        Collections.shuffle(this.deck);
+    }
+
+    public int getSize() {
+        return this.deck.size();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < this.deck.size(); i++) {
+            sb.append(deck.get(i));
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public ArrayList<Tile> createDeck(){
+        ArrayList<Tile> deck = new ArrayList<>(144);
         for (Tile.Suit suit : Tile.Suit.values()) {
             //iterate through suit
             if (suit.equals(Tile.Suit.FLOWERS) || (suit.equals(Tile.Suit.SEASONS))) {
@@ -41,30 +64,19 @@ public class Deck {
             }
 
         }
-    }
-
-    public void shuffle(){
-        Collections.shuffle(this.deck);
-    }
-
-    public int getSize() {
-        return this.deck.size();
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < this.deck.size(); i++) {
-            sb.append(deck.get(i));
-            sb.append("\n");
-        }
-
-        return sb.toString();
+        return deck;
     }
 
     public Tile deal(){
         Tile output = this.deck.get(0);
         this.deck.remove(0);
+
+        return output;
+    }
+
+    public Tile dealFromBottom(){
+        Tile output = this.deck.get(this.deck.size()-1);
+        this.deck.remove(this.deck.size()-1);
 
         return output;
     }
@@ -77,8 +89,13 @@ public class Deck {
         System.out.println(d);
         Tile out = d.deal();
 
+
         System.out.println(d);
         System.out.println(d.getSize());
+
+        Tile bottom = d.dealFromBottom();
+        System.out.println(bottom);
+        System.out.println();
     }
 }
 
